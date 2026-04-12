@@ -1,5 +1,5 @@
 const { test } = require('@playwright/test');
-const { NewsletterPage } = require('../pages/NewsletterPage');
+const { NewsletterPage } = require('../pages/newsletterPage');
 
 test.describe('Automação de Newsletter / Subscription', () => {
     let newsletterPage;

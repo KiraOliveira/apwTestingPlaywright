@@ -1,5 +1,5 @@
 const { test } = require('@playwright/test');
-const { ContactPage } = require('../pages/ContactPage');
+const { ContactPage } = require('../pages/contactPage');
 const path = require('path');
 
 test.describe('Suporte ao Cliente - Automação', () => {

@@ -1,7 +1,7 @@
 const { test, expect } = require('@playwright/test');
 const { LoginPage } = require('../pages/loginPage');
 
-test.describe('Parte 2: Autenticação (Login)', () => {
+test.describe('Feature 2: Authentication (Login)', () => {
     let loginPage;
 
     test.beforeEach(async ({ page }) => {
@@ -12,18 +12,18 @@ test.describe('Parte 2: Autenticação (Login)', () => {
         });
     });
 
-    /*test('TC02 — Login User with correct email and password', async () => {
-        await loginPage.realizarLogin('test@test.com', 'senha123');
-        await loginPage.validarLoginSucesso();
-    });**/
+    test('TC02 — Login User with correct email and password', async () => {
+        await loginPage.login('teste1776060627030@test.com', '123459');
+        await loginPage.loginSucess();
+    });
 
     test('TC03 — Login User with incorrect email and password', async () => {
-        await loginPage.realizarLogin('errado@email.com', '12345');
-        await loginPage.validarMensagemErro('Your email or password is incorrect!');
+        await loginPage.login('error@email.com', '12345');
+        await loginPage.messageError('Your email or password is incorrect!');
     });
 
     test('TC04 — Logout User', async ({ page }) => {
-        await loginPage.realizarLogin('juju@ap605.com', 'senha123');
+        await loginPage.login('teste1776060627030@test.com', '123459');
         await page.click('a[href="/logout"]');
         await expect(page).toHaveURL(/.*login/);
     });

@@ -10,17 +10,17 @@ class LoginPage {
         this.errorMessage = '.login-form p';
     }
 
-    async realizarLogin(email, senha) {
+    async login(email, senha) {
         await this.page.fill(this.emailInput, email);
         await this.page.fill(this.passwordInput, senha);
         await this.page.click(this.loginButton);
     }
 
-    async validarLoginSucesso() {
+    async loginSucess() {
         await expect(this.page.getByText('Logged in as')).toBeVisible();
     }
 
-    async validarMensagemErro(texto) {
+    async messageError(texto) {
         await expect(this.page.getByText(texto)).toBeVisible();
     }
 }

@@ -38,8 +38,8 @@ test.describe('Cenários de Teste - Carrinho de Compras', () => {
         await cartPage.loginLink.click();
         
         // Dados de login (Input para realização do teste)
-        await page.fill('[data-qa="login-email"]', 'teste_qa@provider.com'); [cite: 8]
-        await page.fill('[data-qa="login-password"]', '123456'); [cite: 8]
+        await page.fill('[data-qa="login-email"]', 'teste_qa@provider.com'); //[cite: 8]
+        await page.fill('[data-qa="login-password"]', '123456'); //[cite: 8]
         await page.click('[data-qa="login-button"]');
         
         await cartPage.navegarParaCarrinho();

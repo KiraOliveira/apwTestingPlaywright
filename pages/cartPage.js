@@ -4,7 +4,7 @@ class CartPage {
     constructor(page) {
         this.page = page;
         // Locators
-        this.productRows = page.locator('tr[id^="product-"]');
+        this.productRows = page.locator('#cart_info_table tbody tr');
         this.quantityField = page.locator('.cart_quantity button');
         this.deleteBtn = page.locator('.cart_quantity_delete');
         this.emptyCartMsg = page.locator('#empty_cart');
@@ -14,14 +14,40 @@ class CartPage {
     }
 
     async navegarParaCarrinho() {
-        await this.page.goto('/view_cart'); //[cite: 55]
+        await this.page.goto('/view_cart');
     }
 
     async adicionarProduto(index = 0) {
         await this.page.goto('/products');
-        await this.page.hover(`.single-products >> nth=${index}`);
-        await this.page.click(`.add-to-cart >> nth=${index}`);
-        await this.page.click('button:has-text("Continue Shopping")');
+
+    // --- Add first product ---
+    const firstProduct = this.page.locator('.productinfo .add-to-cart').nth(0);
+    await firstProduct.scrollIntoViewIfNeeded();
+    await firstProduct.click();
+
+    // Aguarda o modal e clica em Continue (usando dispatchEvent por segurança extra)
+    // O index (0) pega o primeiro card de produto da lista
+    const continueBtn = this.page.locator('text=Continue Shopping');
+    await continueBtn.waitFor({ state: 'visible', timeout: 15000 });
+    await continueBtn.dispatchEvent('click'); 
+
+    // --- Add second product ---
+    // O index (1) pega o segundo card de produto da lista
+    const secondProduct = this.page.locator('.productinfo .add-to-cart').nth(1);
+    await secondProduct.scrollIntoViewIfNeeded();
+    await secondProduct.click();
+
+    // Agora vamos para o carrinho para validar
+    const viewCartBtn = this.page.locator('u:has-text("View Cart")');
+    await viewCartBtn.waitFor({ state: 'visible' });
+    await viewCartBtn.dispatchEvent('click');
+
+    // Validação Final
+    const rows = this.page.locator('#cart_info_table tbody tr');
+    // Antes de contar, vamos garantir que a tabela não está vazia
+    await rows.first().waitFor({ state: 'visible' });
+
+    await expect(rows).toHaveCount(2);
     }
 
     async removerProduto() {
